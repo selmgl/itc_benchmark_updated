@@ -76,9 +76,9 @@ void memory_allocation_failure_003 ()
 	for(i=0;i<MAX;i++)
 		ptr[i]=(unsigned int*) malloc(MAX_VAL*sizeof(unsigned int)); /*Tool should not detect this line as error*/ /*No ERROR:Memory allocation failure */
 
-	for(i=0;i<5;i++)
+	for(i=0;i<MAX;i++)
 	{
-		for(j=0;j<5;j++)
+		for(j=0;j<MAX_VAL;j++)
 		{
 			*(*(ptr+i)+j)=i;
 		}
@@ -115,7 +115,7 @@ void memory_allocation_failure_004 ()
 * Type of defect: memory_allocation_failure - Memory could not be allocated / insufficient memory
 * Complexity: When using a void pointer based on value of global variable inside a switch case statement
 */
-void *vptr;
+static void *vptr;
 int memory_allocation_failure_005_func_001 (int flag)
 {
 	switch (flag)
@@ -258,7 +258,7 @@ void memory_allocation_failure_007 ()
 */
 enum {max_buffer = MAX_VAL*2};
 char * memory_allocation_failure_008_func_001 (const char *msg) {
-  const char *error_log = msg;
+  char *error_log = (char *)msg;
   char * buffer = 0;
   int i;
   for(i=0;i<max_buffer;i++)
@@ -274,14 +274,15 @@ char * memory_allocation_failure_008_func_001 (const char *msg) {
 void memory_allocation_failure_008 ()
 {
 	char *str = "STRINGMEM";
-	memory_allocation_failure_008_func_001(str);
+	char *buf = memory_allocation_failure_008_func_001(str);
+        free(buf);
 }
 
 /*
 * Type of defect: memory_allocation_failure - Memory could not be allocated / insufficient memory
 * Complexity: When using a pointer to char in a do ~ while loop and memory allocate and returned to another function ,
 */
-#define MAX_BUFFER (429496728UL)
+#define MAX_BUFFER (214748364UL)
 
 void memory_allocation_failure_009_func_001 (char * buf)
 {
@@ -305,7 +306,7 @@ void memory_allocation_failure_009_func_002 (void * vptr)
 
 void memory_allocation_failure_009 ()
 {
-    void *buf1;
+    char *buf1;
 	buf1 = "String Test123";
     memory_allocation_failure_009_func_002(&buf1);
 }
@@ -447,7 +448,7 @@ void memory_allocation_failure_012 ()
 	int *ptr[5], a;
 	int flag=10;
 
-    (flag == 10)? (memory_allocation_failure_012_func_002(ptr)) : ( a =20);
+    (flag == 10)? (memory_allocation_failure_012_func_002(ptr)) : (void)(a =20);
     (flag == 10)? (ptr[1][1] = 200):(a=100);
 
     if(flag == 10){
@@ -681,6 +682,7 @@ void memory_allocation_failure_015 ()
     int flag;
     flag = memory_allocation_failure_015_func_003(1);
     printf("%d",flag);
+    free(memory_allocation_failure_015_gbl_ptr);
 }
 
 /*
@@ -721,7 +723,7 @@ void memory_allocation_failure_016 ()
 	int * ptr1 = (int *) malloc (memory_allocation_failure_016_func_001(0)*sizeof(int));
 	int * ptr2 = (int *) malloc (memory_allocation_failure_016_func_001(0)*sizeof(int));
     *(ptr1+1) = 10;
-    memory_allocation_failure_016_func_002(0);
+    memory_allocation_failure_016_func_002(1);
 
     free(memory_allocation_failure_016_gbl_ptr1);
     free(memory_allocation_failure_016_gbl_ptr2);
