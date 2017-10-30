@@ -191,7 +191,7 @@ void free_null_pointer_007()
 	int flag=0,i,j;
 	free_null_pointer_007_gbl_doubleptr=NULL;
         // TODO: goto jumps past line with error so it does not actually execute
-	// UpD: should this still be considered as an error (latent) in code ? is it detected by tools ?
+	// UpD: should this still be considered as an error (latent) in code ? is it detected by tools ? 
 goto label;
 
     if(free_null_pointer_007_func_001(flag)!=ZERO)
