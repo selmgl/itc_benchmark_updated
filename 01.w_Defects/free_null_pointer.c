@@ -191,6 +191,7 @@ void free_null_pointer_007()
 	int flag=0,i,j;
 	free_null_pointer_007_gbl_doubleptr=NULL;
         // TODO: goto jumps past line with error so it does not actually execute
+	// UpD: should this still be considered as an error (latent) in code ? is it detected by tools ?
 goto label;
 
     if(free_null_pointer_007_func_001(flag)!=ZERO)
@@ -274,6 +275,7 @@ void free_null_pointer_009 ()
     for(i=0;i<5;i++)
     {
         // TODO: this line dereferences a null pointer and program crashes before reaching line with error
+        // UpD: isn't free_null_pointer_009dst local to ree_null_pointer_009_func_001() ?
     	strcpy (free_null_pointer_009dst[i],"STRING");
     }
 	while(1)
@@ -532,6 +534,7 @@ void free_null_pointer_014_func_002(int flag)
 	   for (i=0;i<1;i++)
 	   {
                    // TODO: this line dereferences a null pointer and program crashes before reaching line with error
+	           // UpD: func_001 should have created some memory space for the pointers
 		   *(free_null_pointer_014_gbl_s->p1) = arr[0];
 		   *(free_null_pointer_014_gbl_s->p2) = arr[1];
 		   *(free_null_pointer_014_gbl_s->p3) = arr[2];
